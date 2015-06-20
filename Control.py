@@ -1,3 +1,5 @@
+from Vector import *
+
 class Control():
     drone = None
     
@@ -41,13 +43,16 @@ class Control():
         if coordinates != []:
             self.stay(coordinates[0])
             
-            if abs(self.error) < 0.2 and abs(self.derror) < 1 and abs(self.drone.speed) < 2:
+            if abs(self.error) < 2 and abs(self.derror) < 2 and abs(self.drone.speed) < 2:
                 self.resetControl()
-                coordinates.pop()
-                
-        self.load(self.stay, [self.drone.height])
-        self.setSwitch(1)
-
+                coordinates.pop(0)                
+                self.load(self.goto, coordinates)
+                self.setSwitch(1)
+        """        
+        else:
+            self.load(self.stay, self.drone.height)
+            self.setSwitch(1)
+        """
     def reset(self):
         self.drone.setRotorSpeed(0)
         self.drone.height = 0.0
@@ -55,12 +60,11 @@ class Control():
         
     def stay(self, place):
         #parameters of the controller
-        p1 = 0.5
-        p2 = 1
+        p1 = 0.7
+        p2 = 2
         p3 = 0.2
         
         self.errorPrev = self.error
-        print place
         self.error = place - self.drone.height
         
         # derivator and integrator
@@ -72,8 +76,14 @@ class Control():
         
         # minel kozelebb kerulok, annal kevesebbet nyomok ra
     
-    def onBtnUp(self):
-        self.drone.setRotorSpeed(self.drone.rotorspeed + 1)
+    def onBtnUp(self):        
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x, self.drone.rotorspeed.y+1))
 
     def onBtnDown(self):
-        self.drone.setRotorSpeed(self.drone.rotorspeed - 1)
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x, self.drone.rotorspeed.y-1))
+        
+    def onBtnLeft(self):
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x-1, self.drone.rotorspeed.y))
+        
+    def onBtnRight(self):
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x+1, self.drone.rotorspeed.y))

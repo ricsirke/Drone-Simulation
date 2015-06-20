@@ -1,0 +1,28 @@
+iranyitas:
+	 vik wiki szabalyozastechnika gyakorlat
+	
+	 atviteli fuggveny
+	 output / input     egy tagra
+	
+	 tobb tag: -sorban -> atv fvek szorzodnak
+	           -parhuzamosa -> atv fvek osszeadodnak 
+	
+	 szabalyzo modellje: tavolsag a celtol, ez milyen gyorsan valtozik
+	 szabalyzo : 2 bemenet: hova, aktualis -> hibajel       -> 1 bemenet
+	             1 kimenet -> vezerles
+	             linearis -> hibajel * konstans
+	
+	 hibajel derivaltja -> gyorsitja a konvergenciat
+	 hibak integralja az eltelt ido alatt -> pontositja a vezerlest
+	
+	  => szabalyzo:    
+	         hibajel =: h
+	         h*k1 + dh*k2 + hSum
+
+
+valszamos parameter beloves:
+	generalunk sok kontroll paramteret k=(k1,k2,k3)
+	legyartjuk ezek palyait, azaz megnezzuk, hogy a dron hogy viselkedik egy k-ra
+	mikor jo egy palya? ha az egyenes palyat p(t) a dron palyaja d(t) a leheto legjobban bekozeliti
+	||p(t)-d(t,k)|| kozel van 0-hoz, minimalis a tobbi paratererrel szemben
+	norma: l, sup

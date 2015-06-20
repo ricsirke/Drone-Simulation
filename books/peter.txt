@@ -1,0 +1,27 @@
+az eredõ átviteli függvénynek a pórusai meg a zérusai meghatározzák, hogy milyen
+jellegû választ ad egy egységugrás jelre, és te a szabályzód átviteli
+függvényének paramétereivel játszadozásával meg tudod szabni olyan pórusokat
+meg zérusokat amik dominánsak lesznek, leginkább beleszólnak abba, hogy
+milyen jellegûen válaszol egy bemenetre.
+
+a gyakanyagban ahol van iylen, hogy egytárolós meg kéttárolós tag, ott mutogatja is,
+hogy egy pólus meg két pólus esetén a gyökök hogy befolyásolják a kimenetet
+(pl itt a 9. oldalon). és ugye mondtam, hogy teljes mértékben ki is tudsz ejteni
+pólusokat és akkor nagyon faszán meg tudod szabni ezt a viselkedést.
+na most amit te használsz F=m*a, annak egy 1/m*s^2 alakú átviteli fve van, ahol
+a kimenet az a pozíció ugye, a bemenet meg a ráadott erõ. Itt ugye nemigazán tudsz
+kiejteni mit, szóval neki kell állni analizálni az eredõ átviteli függvény egészét,
+hogy mitõl függ a túllövés és azt te milyen paraméterekkel tudod állítani.
+
+ehelyett használj egy másik modellt a drónra. ugye ha
+belegondolsz, a drónt se tudod felküldeni bármeddig, egy idõ után meg fog állni.
+ezt a hatást lehet úgy modellezni mintha húzná lefele a rúgó, egy F=-k*x erõvel.
+ez már pl valami "egytárolós integrátoros" átviteli függvény lesz, valami
+1/s*(a*s + 1) alakban. ezzel már lehet játszadozni póluskiejtõset és még
+pontosabb moddelt is használsz.
+
+hogy a póluskiejtõs játéknál mikre jók figyelni azt viszont kín lenne leírni,
+majd szóban elmondom, vagy ott van a gyakanyag
+a szbályzó átviteli függvényét meg ugye megkapod ha laplace transzformálod
+az idõtartomány-beli átviteli függvényét és kirendezed kimenet/bemenet alakra
+de a hármas gyakanyagban benne vannak a használt alakok

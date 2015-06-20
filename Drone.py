@@ -1,47 +1,64 @@
+from Vector import *
+
 class Drone():
-    rotorspeed = 0
-    height=0.0
-    
-    speed = 0.0    
-    acc = 0.0
-    
-    heightPrev=0.0
-    speedPrev = 0.0
-    
-    control = None
+
+    def __init__(self, dt):
+        self.dt = dt
+        self.rotorspeed = Vector(0.0, 0.0)
+        self.pos = Vector(0,0)
+        self.speed = Vector(0.0,0.0)
+        self.acc = Vector(0.0, 0.0)
+        
+        self.posPrev = Vector(0.0, 0.0)
+        self.speedPrev = Vector(0.0, 0.0)
+        
+        self.control = None
     
     def setRotorSpeed(self, value):
-        if value > 100:
-            self.rotorspeed = 100
-        elif value < 0:
-            self.rotorspeed = 0
+        if value.x < 0:
+            self.rotorspeed.x = 0
+        elif value.x > 50:
+            self.rotorspeed.x = 50
         else:
-            self.rotorspeed = value
+            self.rotorspeed.x = value.x
+            
+        if value.y < -50:
+            self.rotorspeed.y = -50
+        elif value.y > 50:
+            self.rotorspeed.y = 50
+        else:
+            self.rotorspeed.y = value.y
+            
     
     def setControl(self, control):
         self.control = control
 
     def refreshHeight(self):
-        newheight = self.calc()
-        self.heightPrev = self.height
-        self.height = newheight
+        newpos = self.calc()
+        self.posPrev = self.pos
+        self.pos = newpos
         #not here
         self.speedPrev = self.speed
-        self.speed = (self.height - self.heightPrev)/(0.02)
-        self.acc = (self.speed - self.speedPrev)/0.02
+        self.speed = (self.pos - self.posPrev)/self.dt
+        self.acc = (self.speed - self.speedPrev) / self.dt
 
     def calc(self):
-        if self.height == 0 and self.rotorspeed == 0:
-            return 0
+        if self.pos.get() == (0,0) and self.rotorspeed.get() == (0,0):
+            return self.pos
         else:
             m = 1.0
             g = 10.0
-            F = self.rotorspeed
-            Fall = F - m*g
-            dt = 0.02  #???
-            newheight = Fall * dt**2 / m + 2 * self.height - self.heightPrev
+            dt = self.dt  #???
+            newy = (self.rotorspeed.get()[1]-m*g) * dt**2 / m + 2 * self.pos.get()[1] - self.posPrev.get()[1]
+            newx = (self.rotorspeed.get()[0]) * dt**2 / m + 2 * self.pos.get()[0] - self.posPrev.get()[0]
 
-            if newheight < 0:
-                return 0
+            if newy < 0:
+                return Vector(self.rotorspeed.x, 0)
+            elif newx < 0:
+                return Vector(0, self.rotorspeed.y)
+            elif newy > 500:
+                return Vector(self.rotorspeed.x, 500)
+            elif newx > 1000:
+                return Vector(1000, self.rotorspeed.y)
             else:
-                return newheight
+                return Vector(newx,newy)

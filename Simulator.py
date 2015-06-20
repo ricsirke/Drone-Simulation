@@ -5,44 +5,54 @@ from Drone import *
 from InfoPanel import *
 
 class Simulator(tk.Tk):
-    def __init__(self):
-        self.WIDTH = 500.0
+    def __init__(self, dt):
+        self.WIDTH = 1000.0
         self.HEIGHT = 500.0
         self.time = 0.0
+        self.dt = dt
                 
         tk.Tk.__init__( self )
         
-        self.drone = Drone()
+        self.drone = Drone(self.dt)
+        #self.drone2 = Drone(self.dt)
         self.control = Control(self.drone)
-        self.drone.setControl(self.control)     
-
-        self.infos = InfoPanel(self, self.drone)
-        self.infos.setUiTexts()
-        self.infos.pack()
+        #self.control2 = Control(self.drone2)
+        #self.drone.setControl(self.control)
+        #self.drone2.setControl(self.control2)     
 
         screen = tk.Frame(self)
         screen.pack()
         
+        self.canvas = tk.Canvas(screen, width=self.WIDTH, height=self.HEIGHT,borderwidth=10)
+        self.canvas.grid(column=1, row=1)
+        
+        self.infos = InfoPanel(screen, self.drone)
+        self.infos.panel.grid(column=2, row=1)
+        #self.infos2 = InfoPanel(screen, self.drone2)
+        #self.infos2.panel.grid(column=3, row=1)
+       
+        # to receive commands
         screen.focus_set()  
-                
-        self.canvas = tk.Canvas(screen, width=self.WIDTH, height=self.HEIGHT)
-        self.canvas.pack()       
-                
-        self.rotorspeed_ui = self.canvas.create_rectangle(25, self.HEIGHT-25, 50, self.HEIGHT-25, fill="blue")
-             
-        self.drone_ui = self.canvas.create_oval(150, self.HEIGHT, 160, self.HEIGHT-10, fill = "red")
-               
+        
+        self.drone_ui = self.canvas.create_oval(40, self.HEIGHT, 50, self.HEIGHT-10, fill = "red")
+        #self.drone2_ui = self.canvas.create_oval(100, self.HEIGHT, 110, self.HEIGHT-10, fill = "blue")       
 
         def onBtnUpHand(e):
             self.control.onBtnUp()
 
         def onBtnDownHand(e):
             self.control.onBtnDown()
+            
+        def onBtnLeftHand(e):
+            self.control.onBtnLeft()
+            
+        def onBtnRightHand(e):
+            self.control.onBtnRight()
 
         def onBtnAHand(e):          
             if self.control.switch == 0:
                 self.control.setSwitch(1)
-                self.control.load(self.control.stay, [self.drone.height])
+                self.control.load(self.control.stay, self.drone.height)
                 
         def onBtnRHand(e):
             self.control.reset()
@@ -50,28 +60,33 @@ class Simulator(tk.Tk):
         def onBtnGHand(e):                        
             if self.control.switch == 0:
                 self.control.setSwitch(1)
-                self.control.load(self.control.goto, [100, 50, 200])
+                self.control.load(self.control.goto, [50, 100, 150, 100, 50])
                 
         def onBtnOHand(e):
             self.control.resetControl()
 
         screen.bind("<Up>", onBtnUpHand)
         screen.bind("<Down>", onBtnDownHand)
+        screen.bind("<Left>", onBtnLeftHand)
+        screen.bind("<Right>", onBtnRightHand)
         screen.bind("<a>", onBtnAHand)
         screen.bind("<r>", onBtnRHand)
         screen.bind("<g>", onBtnGHand)
         screen.bind("<o>", onBtnOHand)
 
-    def simLoop(self):
-        self.canvas.coords(self.rotorspeed_ui, 25, 175, 50, 175-self.drone.rotorspeed)
+    def simLoop(self):        
         self.drone.refreshHeight()
+        #self.drone2.refreshHeight()
         if self.control.switch == 1:
             self.control.run()
             
-        self.canvas.coords(self.drone_ui, 150, self.HEIGHT-self.drone.height, 160, self.HEIGHT-10-self.drone.height)
+        #self.control2.load(self.control2.goto, [self.drone.height])
+        #self.control2.run()
+            
+        self.canvas.coords(self.drone_ui, self.drone.pos.x+40, self.HEIGHT-self.drone.pos.y, self.drone.pos.x+50, self.HEIGHT-10-self.drone.pos.y)
+        #self.canvas.coords(self.drone2_ui, 100, self.HEIGHT-self.drone2.height, 110, self.HEIGHT-10-self.drone2.height)
 
-        self.infos.setUiTexts()
+        self.infos.texts.setUiTexts()
+        #self.infos2.texts.setUiTexts()
         
-        self.time += 0.02
-        
-        self.after(20, self.simLoop)
+        self.after(int(1000*self.dt), self.simLoop)
