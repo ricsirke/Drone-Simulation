@@ -15,19 +15,19 @@ class Drone():
         self.control = None
     
     def setRotorSpeed(self, value):
-        if value.x < 0:
-            self.rotorspeed.x = 0
-        elif value.x > 50:
-            self.rotorspeed.x = 50
+        if value.coords[0] < -50:
+            self.rotorspeed.coords[0] = 0
+        elif value.coords[0] > 50:
+            self.rotorspeed.coords[0] = 50
         else:
-            self.rotorspeed.x = value.x
+            self.rotorspeed.coords[0] = value.coords[0]
             
-        if value.y < -50:
-            self.rotorspeed.y = -50
-        elif value.y > 50:
-            self.rotorspeed.y = 50
+        if value.coords[1] < 0:
+            self.rotorspeed.coords[1] = -50
+        elif value.coords[1] > 50:
+            self.rotorspeed.coords[1] = 50
         else:
-            self.rotorspeed.y = value.y
+            self.rotorspeed.coords[1] = value.coords[1]
             
     
     def setControl(self, control):
@@ -48,17 +48,21 @@ class Drone():
         else:
             m = 1.0
             g = 10.0
-            dt = self.dt  #???
-            newy = (self.rotorspeed.get()[1]-m*g) * dt**2 / m + 2 * self.pos.get()[1] - self.posPrev.get()[1]
-            newx = (self.rotorspeed.get()[0]) * dt**2 / m + 2 * self.pos.get()[0] - self.posPrev.get()[0]
-
-            if newy < 0:
-                return Vector(self.rotorspeed.x, 0)
-            elif newx < 0:
-                return Vector(0, self.rotorspeed.y)
-            elif newy > 500:
-                return Vector(self.rotorspeed.x, 500)
-            elif newx > 1000:
-                return Vector(1000, self.rotorspeed.y)
+            dt = self.dt  #???        
+            """
+             m*ddx = F
+            """            
+            Fall = self.rotorspeed + Vector(0, -m*g)
+            
+            newpos = Fall * dt**2 / m + self.pos * 2 - self.posPrev
+            
+            if newpos.coords[1] < 0:
+                return Vector(newpos.coords[0], 0)
+            elif newpos.coords[0] < 0:
+                return Vector(0, newpos.coords[1])
+            elif newpos.coords[1] > 500:
+                return Vector(newpos.coords[0], 500)
+            elif newpos.coords[0] > 1000:
+                return Vector(1000, newpos.coords[1])
             else:
-                return Vector(newx,newy)
+                return newpos

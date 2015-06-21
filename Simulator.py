@@ -83,7 +83,7 @@ class Simulator(tk.Tk):
         #self.control2.load(self.control2.goto, [self.drone.height])
         #self.control2.run()
             
-        self.canvas.coords(self.drone_ui, self.drone.pos.x+40, self.HEIGHT-self.drone.pos.y, self.drone.pos.x+50, self.HEIGHT-10-self.drone.pos.y)
+        self.canvas.coords(self.drone_ui, self.drone.pos.coords[0]+40, self.HEIGHT-self.drone.pos.coords[1], self.drone.pos.coords[0]+50, self.HEIGHT-10-self.drone.pos.coords[1])
         #self.canvas.coords(self.drone2_ui, 100, self.HEIGHT-self.drone2.height, 110, self.HEIGHT-10-self.drone2.height)
 
         self.infos.texts.setUiTexts()

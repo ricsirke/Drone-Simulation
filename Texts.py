@@ -45,10 +45,10 @@ class Texts():
         self.format = "%0.2f , %0.2f"
     
     def setUiTexts(self):
-        self.rotorSpeed.config(text=self.format % (self.drone.rotorspeed.x, self.drone.rotorspeed.y))
-        self.pos.config(text=self.format % (self.drone.pos.x, self.drone.pos.y))
-        self.speed.config(text=self.format % (self.drone.speed.x, self.drone.speed.y))
-        self.acc.config(text=self.format % (self.drone.acc.x, self.drone.acc.y))
+        self.rotorSpeed.config(text=self.format % (self.drone.rotorspeed.coords[0], self.drone.rotorspeed.coords[1]))
+        self.pos.config(text=self.format % (self.drone.pos.coords[0], self.drone.pos.coords[1]))
+        self.speed.config(text=self.format % (self.drone.speed.coords[0], self.drone.speed.coords[1]))
+        self.acc.config(text=self.format % (self.drone.acc.coords[0], self.drone.acc.coords[1]))
         
         """
         self.height.config(text="%0.2f" % (self.drone.height))

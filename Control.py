@@ -77,13 +77,13 @@ class Control():
         # minel kozelebb kerulok, annal kevesebbet nyomok ra
     
     def onBtnUp(self):        
-        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x, self.drone.rotorspeed.y+1))
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.coords[0], self.drone.rotorspeed.coords[1]+1))
 
     def onBtnDown(self):
-        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x, self.drone.rotorspeed.y-1))
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.coords[0], self.drone.rotorspeed.coords[1]-1))
         
     def onBtnLeft(self):
-        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x-1, self.drone.rotorspeed.y))
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.coords[0]-1, self.drone.rotorspeed.coords[1]))
         
     def onBtnRight(self):
-        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.x+1, self.drone.rotorspeed.y))
+        self.drone.setRotorSpeed( Vector(self.drone.rotorspeed.coords[0]+1, self.drone.rotorspeed.coords[1]))

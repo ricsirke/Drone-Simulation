@@ -3,10 +3,18 @@ dt para mindenhol
 drone:
 	hatarok: sebesseg nulla
 	kiterjedt testkent
+	refreshheight nem ez a neve es lehet, h a controlba tartozik inkabb
 
 control:
-	gotopath: megnyomok egy gombot -> kattintok a kepernyon egy parat, ezek koordinatait kijelzi -> ezt az utat fogja kovetni
+	gotopath: megnyomok egy gombot -> kattintok a kepernyon (odatesz egy pottyot) egy parat, ezek koordinatait kijelzi -> ezt az utat fogja kovetni
 	koordinatankent kell egy control, mert mas az eroter  |  ezt lehetne egyszerusiteni?
 	
 infopanel:
 	texts.py-ban a szamok melle a jelentesuk is, pl pos, speed, acc
+	plots, ki-be kapcsolható, ha bekapcsolom az adott pillanattól kezdve kezdi rajzolni
+	
+vector:
+	sub,div,... check dimensions, like in set()
+	
+model:
+	on the ground i cannot move left/right - kind of boundary conditions

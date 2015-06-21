@@ -39,8 +39,8 @@ root.mainloop()"""
 
 
 from Vector import *
-a = Vector(2,1)
-b = Vector(3,2)
+a = Vector(2,1,2)
+b = Vector(3,2,3)
 
 c = a + b
 
