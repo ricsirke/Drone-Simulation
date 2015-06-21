@@ -26,3 +26,15 @@ valszamos parameter beloves:
 	mikor jo egy palya? ha az egyenes palyat p(t) a dron palyaja d(t) a leheto legjobban bekozeliti
 	||p(t)-d(t,k)|| kozel van 0-hoz, minimalis a tobbi paratererrel szemben
 	norma: l, sup
+
+
+random param:
+mettől meddig? 0-2; mennyit? n
+aGen = gen(0,2, n)
+minGen = min{error(aGen)}
+
+def error(aGen):
+|| idealRoute-droneRoute(aGen[i]) ||
+
+def gen(x,y, n):
+return aGen[i] = new(Uni(x,y), Uni(x,y))
