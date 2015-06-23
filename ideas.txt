@@ -29,7 +29,7 @@ valszamos parameter beloves:
 
 
 random param:
-mett≈ël meddig? 0-2; mennyit? n
+mettol meddig? 0-2; mennyit? n
 aGen = gen(0,2, n)
 minGen = min{error(aGen)}
 
@@ -38,3 +38,11 @@ def error(aGen):
 
 def gen(x,y, n):
 return aGen[i] = new(Uni(x,y), Uni(x,y))
+
+idealRoute:
+	f(t) linearis fv lenne, (0,0) Ès (t1,target) kozott, de a t1-et nem akarom elore meghatarozni
+	
+	melyik a leggyorsabb es melyiknel min a max/sum**2 hiba
+	mint, azt·n minhiba |||| minhiba azt·n mint
+	itt nincs idealroute
+	fel kell ismerni, ha nem konvergal (valamilyen kuszob az idore, ezalatt nem kerul kozel, kis sebesseggel)

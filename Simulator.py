@@ -17,7 +17,7 @@ class Simulator(tk.Tk):
         #self.drone2 = Drone(self.dt)
         self.control = Control(self.drone)
         #self.control2 = Control(self.drone2)
-        #self.drone.setControl(self.control)
+        self.drone.setControl(self.control)
         #self.drone2.setControl(self.control2)     
 
         screen = tk.Frame(self)
@@ -52,7 +52,7 @@ class Simulator(tk.Tk):
         def onBtnAHand(e):          
             if self.control.switch == 0:
                 self.control.setSwitch(1)
-                self.control.load(self.control.stay, self.drone.height)
+                self.control.load(self.control.stay, self.drone.pos)
                 
         def onBtnRHand(e):
             self.control.reset()
@@ -60,7 +60,7 @@ class Simulator(tk.Tk):
         def onBtnGHand(e):                        
             if self.control.switch == 0:
                 self.control.setSwitch(1)
-                self.control.load(self.control.goto, [50, 100, 150, 100, 50])
+                self.control.load(self.control.goto, [Vector(0,50), Vector(30,100)])
                 
         def onBtnOHand(e):
             self.control.resetControl()
@@ -75,7 +75,7 @@ class Simulator(tk.Tk):
         screen.bind("<o>", onBtnOHand)
 
     def simLoop(self):        
-        self.drone.refreshHeight()
+        self.drone.refreshPos()
         #self.drone2.refreshHeight()
         if self.control.switch == 1:
             self.control.run()

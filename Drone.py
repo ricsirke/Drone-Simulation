@@ -15,17 +15,17 @@ class Drone():
         self.control = None
     
     def setRotorSpeed(self, value):
-        if value.coords[0] < -50:
-            self.rotorspeed.coords[0] = 0
-        elif value.coords[0] > 50:
-            self.rotorspeed.coords[0] = 50
+        if value.coords[0] < -30:
+            self.rotorspeed.coords[0] = -30
+        elif value.coords[0] > 30:
+            self.rotorspeed.coords[0] = 30
         else:
             self.rotorspeed.coords[0] = value.coords[0]
             
         if value.coords[1] < 0:
-            self.rotorspeed.coords[1] = -50
-        elif value.coords[1] > 50:
-            self.rotorspeed.coords[1] = 50
+            self.rotorspeed.coords[1] = 0
+        elif value.coords[1] > 30:
+            self.rotorspeed.coords[1] = 30
         else:
             self.rotorspeed.coords[1] = value.coords[1]
             
@@ -33,7 +33,7 @@ class Drone():
     def setControl(self, control):
         self.control = control
 
-    def refreshHeight(self):
+    def refreshPos(self):
         newpos = self.calc()
         self.posPrev = self.pos
         self.pos = newpos
@@ -57,12 +57,16 @@ class Drone():
             newpos = Fall * dt**2 / m + self.pos * 2 - self.posPrev
             
             if newpos.coords[1] < 0:
+                self.speed.set(0,0)
                 return Vector(newpos.coords[0], 0)
             elif newpos.coords[0] < 0:
+                self.speed.set(0,0)
                 return Vector(0, newpos.coords[1])
             elif newpos.coords[1] > 500:
+                self.speed.set(0,0)
                 return Vector(newpos.coords[0], 500)
             elif newpos.coords[0] > 1000:
+                self.speed.set(0,0)
                 return Vector(1000, newpos.coords[1])
             else:
                 return newpos

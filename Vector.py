@@ -1,3 +1,5 @@
+from math import sqrt
+
 class Vector():
     def __init__(self, *args):
         # Vector(2,3,4,3,2)
@@ -15,8 +17,14 @@ class Vector():
     def get(self):
         return self.coords
     
+    def len(self):
+        sum = 0
+        for coord in self.coords:
+            sum += coord**2
+        return sqrt(sum)
+    
     def __add__(self, b):
-        return Vector(*[self.coords[i]  +b.coords[i] for i in range(len(self.coords))])
+        return Vector(*[self.coords[i] + b.coords[i] for i in range(len(self.coords))])
         
     def __sub__(self, b):
         return Vector(*[self.coords[i] - b.coords[i] for i in range(len(self.coords))])
@@ -30,6 +38,8 @@ class Vector():
     def __mul__ (self, c):
         if isinstance(c, (long, int, float)):
             return Vector(*[self.coords[i] * c for i in range(len(self.coords))])
+        elif isinstance(c, Vector):
+            return Vector(*[self.coords[i] * c[i] in range(len(self.coords))])
         else:
             print "Error in Vector - div: second arg is not i can multiply with"
         

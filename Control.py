@@ -6,15 +6,22 @@ class Control():
     
     def __init__(self, drone):
         self.drone = drone
-        self.error = 0
-        self.errorPrev = 0
+        self.error = Vector(0,0)
+        self.errorPrev = Vector(0,0)
         
-        self.derror = 0        
-        self.errorSum = 0
+        self.derror = Vector(0,0)
+        self.errorSum = Vector(0,0)
         
         self.program = ""
         self.params = []
         self.switch = 0
+        
+        self.p = [1.920992106546498, 1.4674037935865036, 1.2306011558472907]
+        
+        drone.setControl(self)
+        
+    def setP(self, newP):
+        self.p = newP
         
     def run(self):
         self.program(self.params)
@@ -33,46 +40,40 @@ class Control():
             
     def resetControl(self):
         self.switch = 0
-        self.error = 0
-        self.errorPrev = 0        
-        self.derror = 0        
-        self.errorSum = 0
+        self.error = Vector(0,0)
+        self.errorPrev = Vector(0,0)        
+        self.derror = Vector(0,0)        
+        self.errorSum = Vector(0,0)
         self.program = None
         
     def goto(self, coordinates):
         if coordinates != []:
             self.stay(coordinates[0])
             
-            if abs(self.error) < 2 and abs(self.derror) < 2 and abs(self.drone.speed) < 2:
+            if abs(self.error.len()) < 2 and abs(self.derror.len()) < 2 and abs(self.drone.speed.len()) < 2:
                 self.resetControl()
                 coordinates.pop(0)                
                 self.load(self.goto, coordinates)
                 self.setSwitch(1)
-        """        
+      
         else:
-            self.load(self.stay, self.drone.height)
+            self.resetControl()
+            self.load(self.stay, self.drone.pos)
             self.setSwitch(1)
-        """
+
     def reset(self):
-        self.drone.setRotorSpeed(0)
-        self.drone.height = 0.0
-        self.drone.speed = 0.0
+        self.drone.rotorspeed.set(0,0)
+        self.drone.height.set(0,0)
+        self.drone.speed.set(0,0)
         
-    def stay(self, place):
-        #parameters of the controller
-        p1 = 0.7
-        p2 = 2
-        p3 = 0.2
-        
+    def stay(self, place):        
         self.errorPrev = self.error
-        self.error = place - self.drone.height
-        
+        self.error = place - self.drone.pos        
         # derivator and integrator
-        self.errorSum += self.error * 0.02
-        self.derror = (self.error - self.errorPrev) / 0.02
-        
+        self.errorSum += self.error * self.drone.dt
+        self.derror = (self.error - self.errorPrev) / self.drone.dt        
         # linear controller
-        self.drone.setRotorSpeed(p1 * self.error + p2 * self.derror + p3 * self.errorSum)
+        self.drone.setRotorSpeed(self.error * self.p[0] + self.derror * self.p[1] + self.errorSum * self.p[2])
         
         # minel kozelebb kerulok, annal kevesebbet nyomok ra
     

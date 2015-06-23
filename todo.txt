@@ -1,4 +1,4 @@
-dt para mindenhol
+dt para mindenhol   droneban???
 
 drone:
 	hatarok: sebesseg nulla
@@ -15,6 +15,7 @@ infopanel:
 	
 vector:
 	sub,div,... check dimensions, like in set()
+	l2 len is correct?
 	
 model:
 	on the ground i cannot move left/right - kind of boundary conditions

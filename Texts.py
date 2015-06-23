@@ -49,15 +49,10 @@ class Texts():
         self.pos.config(text=self.format % (self.drone.pos.coords[0], self.drone.pos.coords[1]))
         self.speed.config(text=self.format % (self.drone.speed.coords[0], self.drone.speed.coords[1]))
         self.acc.config(text=self.format % (self.drone.acc.coords[0], self.drone.acc.coords[1]))
-        
-        """
-        self.height.config(text="%0.2f" % (self.drone.height))
-        
-        self.acc.config(text="%0.2f" % self.drone.acc)
-        self.error.config(text="%0.2f" % self.drone.control.error)
-        self.derror.config(text="%0.2f" % self.drone.control.derror)
-        self.errorSum.config(text="%0.2f" % self.drone.control.errorSum)
-        
+        self.error.config(text=self.format % (self.drone.control.error.coords[0], self.drone.control.error.coords[1]))
+        self.derror.config(text=self.format % (self.drone.control.derror.coords[0], self.drone.control.derror.coords[1]))
+        self.errorSum.config(text=self.format % (self.drone.control.errorSum.coords[0], self.drone.control.errorSum.coords[1]))
+             
         if self.drone.control.program == self.drone.control.stay:
             self.runProgram = "stay"
         elif self.drone.control.program == self.drone.control.goto:
@@ -65,6 +60,5 @@ class Texts():
         else:
             self.runProgram = ""
         self.switch.config(text=self.runProgram)
-        """
     
         
